@@ -12,7 +12,6 @@ modules/contrib/
 themes/contrib/
 libraries/
 node_modules/
-frontend/
 
 # Ignorer les fichiers système
 *.log
