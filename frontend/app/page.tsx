@@ -17,10 +17,9 @@ export default async function Home() {
         include: "field_image,uid",
         sort: "-created",
       },
-      next: {
-        revalidate: 3600,
-      },
-    }
+next: {
+        tags: ["articles"], // On donne une étiquette à cette liste
+      },    }
   )
 
   return (

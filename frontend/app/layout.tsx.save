@@ -19,15 +19,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    
-    <html lang="fr">
-
+    <html lang="en">
       <head />
       <body>
         {/* Google Analytics */}
         <Script
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-KD7TS99LKZ"
+          src="https://www.googletagmanager.com/gtag/js?id=G-KD7TS99LKZG-KD7TS99LKZ"
         />
         <Script
           id="google-analytics"
