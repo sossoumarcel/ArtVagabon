@@ -5,10 +5,8 @@ namespace Drupal\decoupled_router\EventSubscriber;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\GeneratedUrl;
-use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Url;
 use Drupal\decoupled_router\PathTranslatorEvent;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Event subscriber that processes a path translation with the redirect info.
@@ -48,41 +46,13 @@ class RedirectPathTranslatorSubscriber extends RouterPathTranslatorSubscriber {
     $redirects_trace = [];
     while (TRUE) {
       $destination = $this->cleanSubdirInPath($destination, $event->getRequest());
-      $destination_language = '';
-      $path_without_prefix = $destination;
-      $langcodes = [];
-      if ($this->languageManager->isMultilingual()) {
-        $langcodes = [LanguageInterface::LANGCODE_NOT_SPECIFIED];
-        $language_negotiation_url = $this->languageManager->getNegotiator()
-          ->getNegotiationMethodInstance('language-url');
-        $router_request = Request::create($destination);
-        $langcode = $language_negotiation_url->getLangcode($router_request);
-
-        // If language negotiation fails, we add the current language to the
-        // list of languages to check for redirects, we assume that the
-        // current language is the language which the user wants to see.
-        if(!$langcode) {
-          $langcode = $this->languageManager->getCurrentLanguage()->getId();
-          $langcodes[] = $langcode;
-        }
-
-        $language_prefixes = $this->configFactory->get('language.negotiation')->get('url.prefixes');
-        $lang_prefix = $language_prefixes[$langcode] ?? '';
-        if ($langcode && ($destination === "/$lang_prefix" || strpos($destination, "/$lang_prefix/") === 0)) {
-          $langcodes[] = $destination_language = $langcode;
-          $path_without_prefix = $language_negotiation_url->processInbound($destination, $router_request);
-        }
-      }
       // Find if there is a redirect for this path.
-      $query = $redirect_storage
+      $results = $redirect_storage
         ->getQuery()
         ->accessCheck(TRUE)
         // Redirects are stored without the leading slash :-(.
-        ->condition('redirect_source__path', ltrim($path_without_prefix, '/'));
-      if (!empty($langcodes)) {
-        $query->condition('language', $langcodes, 'IN');
-      }
-      $results = $query->execute();
+        ->condition('redirect_source.path', ltrim($destination, '/'))
+        ->execute();
       $rid = reset($results);
       if (!$rid) {
         break;
@@ -91,7 +61,7 @@ class RedirectPathTranslatorSubscriber extends RouterPathTranslatorSubscriber {
       $redirect = $redirect_storage->load($rid);
       $response->addCacheableDependency($redirect);
       $uri = $redirect->get('redirect_redirect')->uri;
-      $url = Url::fromUri($uri, $destination_language ? ['language' => $this->languageManager->getLanguage($destination_language)] : [])->toString(TRUE);
+      $url = Url::fromUri($uri)->toString(TRUE);
       $redirects_trace[] = [
         'from' => $this->makeRedirectUrl($destination, $original_query_string),
         'to' => $this->makeRedirectUrl($url->getGeneratedUrl(), $original_query_string),
