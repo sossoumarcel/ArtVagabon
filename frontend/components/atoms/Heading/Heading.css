@@ -1,0 +1,13 @@
+.heading {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+.heading--primary {
+  font-family: 'Staatliches', sans-serif; /* Police pour le variant primary */
+}
+
+.heading--secondary {
+  font-family: 'IM Fell English SC', serif; /* Police pour le variant secondary */
+}
