@@ -9,10 +9,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityType;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityMalformedException;
-use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Routing\RouteObjectInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
@@ -77,27 +74,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
   protected $aliasManager;
 
   /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
-   * The entity repository service.
-   *
-   * @var \Drupal\Core\Entity\EntityRepositoryInterface
-   */
-  protected $entityRepository;
-
-  /**
-   * The langcode if added as a prefix to the path.
-   *
-   * @var string
-   */
-  protected $langcode;
-
-  /**
    * RouterPathTranslatorSubscriber constructor.
    *
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
@@ -112,10 +88,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
    *   The config factory.
    * @param \Drupal\path_alias\AliasManagerInterface $aliasManager
    *   The alias manager.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
-   *   The language manager.
-   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
-   *   The entity repository.
    */
   public function __construct(
     ContainerInterface $container,
@@ -124,8 +96,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
     ModuleHandlerInterface $module_handler,
     ConfigFactoryInterface $config_factory,
     AliasManagerInterface $aliasManager,
-    LanguageManagerInterface $language_manager,
-    EntityRepositoryInterface $entity_repository
   ) {
     $this->container = $container;
     $this->logger = $logger;
@@ -133,8 +103,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
     $this->moduleHandler = $module_handler;
     $this->configFactory = $config_factory;
     $this->aliasManager = $aliasManager;
-    $this->languageManager = $language_manager;
-    $this->entityRepository = $entity_repository;
   }
 
   /**
@@ -148,10 +116,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
     }
     $path = $event->getPath();
     $path = $this->cleanSubdirInPath($path, $event->getRequest());
-    if ($this->languageManager->isMultilingual()) {
-      $path = $this->getPathFromAlias($path);
-    }
-
     try {
       $match_info = $this->router->match($path);
     }
@@ -180,14 +144,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
     if (!$entity) {
       $this->logger->notice('A route has been found but it has no entity information.');
       return;
-    }
-    elseif (!empty($this->langcode)) {
-      if ($entity->hasTranslation($this->langcode) && method_exists($entity, 'getTranslation')) {
-        $entity = $entity->getTranslation($this->langcode);
-      }
-      else {
-        $entity = $this->entityRepository->getTranslationFromContext($entity, $this->langcode);
-      }
     }
     $response->addCacheableDependency($entity);
     if ($entity->getEntityType() instanceof ContentEntityType) {
@@ -225,14 +181,9 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
       return;
     }
     $entity_param = $param_uses_uuid ? $entity->id() : $entity->uuid();
-    $resolved_url = Url::fromRoute(
-      $match_info[RouteObjectInterface::ROUTE_NAME],
-      [$route_parameter_entity_key => $entity_param],
-      [
-        'absolute' => TRUE,
-        'language' => $entity->language()
-      ]
-    )->toString(TRUE);
+    $resolved_url = Url::fromRoute($match_info[RouteObjectInterface::ROUTE_NAME], [
+      $route_parameter_entity_key => $entity_param,
+    ], ['absolute' => TRUE])->toString(TRUE);
     $response->addCacheableDependency($canonical_url);
     $response->addCacheableDependency($resolved_url);
     $is_home_path = $this->resolvedPathIsHomePath($resolved_url->getGeneratedUrl());
@@ -242,10 +193,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
 
     $label_accessible = $entity->access('view label', NULL, TRUE);
     $response->addCacheableDependency($label_accessible);
-    $langcode = NULL;
-    if ($entity instanceof TranslatableInterface) {
-      $langcode = $entity->language()->getId();
-    }
     $output = [
       'resolved' => $resolved_url->getGeneratedUrl(),
       'isHomePath' => $is_home_path,
@@ -255,7 +202,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
         'bundle' => $entity->bundle(),
         'id' => $entity->id(),
         'uuid' => $entity->uuid(),
-        'langcode' => $langcode,
       ],
     ];
     if ($label_accessible->isAllowed()) {
@@ -273,37 +219,23 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
       $rt_repo = $this->container->get('jsonapi.resource_type.repository');
       $rt = $rt_repo->get($entity_type_id, $entity->bundle());
       $type_name = $rt->getTypeName();
-      $jsonapi_base_path = Url::fromRoute(
-        'jsonapi.resource_list',
-        [],
-        ['language' => $entity->language()]
-      )->toString(TRUE);
-      $entry_point_url = Url::fromRoute(
-        'jsonapi.resource_list',
-        [],
-        [
-          'absolute' => TRUE,
-          'language' => $entity->language(),
-        ]
-      )->toString(TRUE);
+      $jsonapi_base_path = $this->container->getParameter('jsonapi.base_path');
+      $entry_point_url = Url::fromRoute('jsonapi.resource_list', [], ['absolute' => TRUE])->toString(TRUE);
       $route_name = sprintf('jsonapi.%s.individual', $type_name);
       $individual = Url::fromRoute(
         $route_name,
         [
           static::getEntityRouteParameterName($route_name, $entity_type_id) => $entity->uuid(),
         ],
-        [
-          'absolute' => TRUE,
-          'language' => $entity->language(),
-        ]
+        ['absolute' => TRUE]
       )->toString(TRUE);
       $response->addCacheableDependency($entry_point_url);
       $response->addCacheableDependency($individual);
       $output['jsonapi'] = [
         'individual' => $individual->getGeneratedUrl(),
         'resourceName' => $type_name,
-        'pathPrefix' => trim($jsonapi_base_path->getGeneratedUrl(), '/'),
-        'basePath' => $jsonapi_base_path->getGeneratedUrl(),
+        'pathPrefix' => trim($jsonapi_base_path, '/'),
+        'basePath' => $jsonapi_base_path,
         'entryPoint' => $entry_point_url->getGeneratedUrl(),
       ];
       $output['meta'] = [
@@ -451,35 +383,6 @@ class RouterPathTranslatorSubscriber implements EventSubscriberInterface {
     // installed under http://example.com/d8/index.php
     $regexp = preg_quote($request->getBasePath(), '/');
     return preg_replace(sprintf('/^%s/', $regexp), '', $path);
-  }
-
-  /**
-   * Convert an alias to its source path.
-   *
-   * This is a workaround for a bug where matcher fails on aliases prefixed by
-   * a language prefix when it doesn't match the negotiated language.
-   *
-   * @param string $path
-   *   The input path string.
-   *
-   * @return string
-   *   The output path string.
-   */
-  protected function getPathFromAlias($path) {
-    $config = $this->configFactory->get('language.negotiation')->get('url');
-    $language_negotiation_url = $this->languageManager->getNegotiator()
-      ->getNegotiationMethodInstance('language-url');
-    $router_request = Request::create($path);
-    $langcode = $language_negotiation_url->getLangcode($router_request);
-    $prefix = $config['prefixes'][$langcode] ?? NULL;
-    if ($prefix && ($path == "/$prefix" || strpos($path, "/$prefix/") === 0)) {
-      $this->langcode = $langcode;
-      $path_without_prefix = $language_negotiation_url->processInbound($path, $router_request);
-      $path = $this->aliasManager->getPathByAlias($path_without_prefix, $langcode);
-      $path = "/$prefix" . $path;
-    }
-
-    return $path;
   }
 
   /**

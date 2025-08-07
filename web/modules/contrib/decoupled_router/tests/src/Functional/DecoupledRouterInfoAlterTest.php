@@ -90,14 +90,13 @@ class DecoupledRouterInfoAlterTest extends BrowserTestBase {
         'uuid' => $node->uuid(),
         // Result of implementing the hook_decoupled_router_info_alter.
         'owner' => $node->getOwner()->uuid(),
-        'langcode' => 'en',
       ],
       'label' => $node->label(),
       'jsonapi' => [
         'individual' => $this->buildUrl('/jsonapi/node/article/' . $node->uuid()),
         'resourceName' => 'node--article',
-        'pathPrefix' => 'subdirectory/jsonapi',
-        'basePath' => '/subdirectory/jsonapi',
+        'pathPrefix' => 'jsonapi',
+        'basePath' => '/jsonapi',
         'entryPoint' => $this->buildUrl('/jsonapi'),
       ],
       'meta' => [
