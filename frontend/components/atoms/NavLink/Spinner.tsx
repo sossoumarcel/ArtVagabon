@@ -1,10 +1,19 @@
-// src/components/atoms/Spinner.tsx
+// frontend/stories/atoms/Spinner.tsx
 import React from 'react';
 
-export const Spinner = () => {
+const Spinner = () => {
   return (
-    <div className="flex justify-center items-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent" />
+    <div style={{ textAlign: 'center', padding: '1rem' }}>
+      <div style={{
+        width: '40px',
+        height: '40px',
+        border: '4px solid #ccc',
+        borderTop: '4px solid #333',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite'
+      }} />
     </div>
   );
 };
+
+export default Spinner;
