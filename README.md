@@ -2,7 +2,7 @@
 Se Connecter à http://13.38.65.61/user/login
 Créer un nouveaucompte  <br>
 Frontend Nextjs: http://35.180.89.203:3000/ <br>
-Storybook: https://avgstorybookff-git-main-pythagores-projects-edd9b893.vercel.app/  <br>
+Storybook: https://avgstorybookff-6pg694kq8-pythagores-projects-edd9b893.vercel.app/ <br>
 
 Achitecture:  <br>
 <img width="851" height="593" alt="image" src="https://github.com/user-attachments/assets/72f384d9-2b9f-4f05-9100-94e6e0d77855" />
