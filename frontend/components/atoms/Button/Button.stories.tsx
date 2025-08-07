@@ -1,5 +1,6 @@
 import React from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite'; // ✅ ← ICI l'import manquant
+
 import Button from './Button';
 
 const meta: Meta<typeof Button> = {

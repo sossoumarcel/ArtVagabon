@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react-vite';
 
 import InputGroup from './InputGroup';
 import { InputGroupProps } from './types';
@@ -7,9 +7,9 @@ import { InputGroupProps } from './types';
 export default {
   title: 'Atoms/InputGroup',
   component: InputGroup,
-} as Meta;
+} as Meta<typeof InputGroup>;
 
-const Template: Story<InputGroupProps> = (args) => <InputGroup {...args} />;
+const Template: StoryFn<InputGroupProps> = (args) => <InputGroup {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

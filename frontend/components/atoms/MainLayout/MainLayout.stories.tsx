@@ -1,9 +1,7 @@
-
 import React from 'react';
 
-import type { StoryFn, Meta  } from '@storybook/nextjs-vite';
-
-import MainLayout from './MainLayout';
+import type { Meta, StoryFn } from '@storybook/react-vite';
+import MainLayout  from './MainLayout';
 
 export default {
   title: 'Templates/MainLayout',

@@ -1,19 +1,22 @@
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React from 'react';
-import { NavLink as RouterNavLink } from 'react-router-dom';
 
 interface NavLinkProps {
-  to: string;
-  children: React.ReactNode;
+  href: string;
+  label: string;
+  isActive?: boolean;
+  onClick?: () => void;
 }
 
-const NavLink: React.FC<NavLinkProps> = ({ to, children }) => {
+const NavLink: React.FC<NavLinkProps> = ({ href, label, isActive, onClick }) => {
+  const pathname = usePathname();
+  const activeClass = isActive || pathname === href ? 'active' : '';
+
   return (
-    <RouterNavLink
-      to={to}
-      className={({ isActive }) => (isActive ? 'active' : '')}
-    >
-      {children}
-    </RouterNavLink>
+    <Link href={href} className={activeClass} onClick={onClick}>
+      {label}
+    </Link>
   );
 };
 

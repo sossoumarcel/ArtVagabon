@@ -27,6 +27,8 @@
     "@storybook/addon-docs": "^9.1.1",
     "@storybook/addon-vitest": "^9.1.1",
     "@storybook/nextjs-vite": "^9.1.1",
+    "@storybook/react-vite": "^9.1.1",
+    "@storybook/testing-library": "^0.2.1",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/typography": "^0.5.12",
     "@types/node": "^20.12.7",
