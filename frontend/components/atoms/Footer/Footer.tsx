@@ -1,29 +1,39 @@
 import React from 'react';
 import './Footer.css';
-
+import Icon from '../Icon';
+import Logo from '../logo'
 export const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-top">
           <div className="footer-brand-info">
-            {/* Placeholder for Logo component if available */}
+              <Logo />
             <h2>ArtVagabon</h2>
-            <p className="footer-slogan">L'art à portée de main.</p>
+            <p className="footer-slogan">L&apos;art à portée de main.</p>
             <div className="social-icons-group">
               <h3>Suivez-nous</h3>
               <div className="social-icons">
                 <div className="social-icon-wrapper">
                   <span>Facebook</span>
-                  <a href="#" className="social-icon facebook"></a>
+                  <a href="https://facebook.com" className="social-icon">
+              <Icon name="facebook" size={24} />
+            </a>
+                  
                 </div>
                 <div className="social-icon-wrapper">
                   <span>Twitter</span>
-                  <a href="#" className="social-icon twitter"></a>
+                  <a href="https://twitter.com" className="social-icon">
+              <Icon name="twitter" size={24} />
+            </a>
                 </div>
                 <div className="social-icon-wrapper">
                   <span>Instagram</span>
-                  <a href="#" className="social-icon instagram"></a>
+                  <a href="#" className="social-icon instagram">
+
+                    <Icon name="instagram" size={24} />
+
+                  </a>
                 </div>
               </div>
             </div>
@@ -71,7 +81,7 @@ export const Footer = () => {
             <h3>Contactez-nous</h3>
             <p className="company-address">
               ArtVagabon S.A.R.L.<br/>
-              123 Rue de l'Art<br/>
+              123 Rue de l&apos;Art<br/>
               75001 Paris, France
             </p>
             <p>Email: contact@artvagabon.com</p>

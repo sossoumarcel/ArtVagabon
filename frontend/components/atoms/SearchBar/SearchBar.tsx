@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { SearchBarProps } from './types';
 import './SearchBar.css';
 
-const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Search...', onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  placeholder = 'Search...',
+  onSearch,
+  className,
+}) => {
   const [query, setQuery] = useState('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +20,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Search...', onSear
   };
 
   return (
-    <div className="search-bar-container">
+    <div className={`search-bar-container ${className || ''}`}>
       <input
         type="text"
         value={query}
