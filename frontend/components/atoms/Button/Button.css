@@ -1,0 +1,23 @@
+.button {
+  border: 1px solid transparent;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'Saira Condensed', sans-serif;
+}
+
+.button--primary {
+  background-color: #daa520; /* gold */
+  color: white;
+}
+
+.button--secondary {
+  background-color: transparent;
+  border-color: #daa520; /* gold */
+  color: #daa520; /* gold */
+}
+
+.button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
