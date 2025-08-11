@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconProps } from './types';
 
-const Icon = ({ name, size = 24 }: IconProps) => {
+const Icon = ({ name, size = 24,className }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

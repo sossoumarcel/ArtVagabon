@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;700&display=swap');
+
+.paragraph {
+  font-family: 'Saira Condensed', sans-serif;
+  margin: 0;
+}
+
+.paragraph--medium {
+  font-size: 16px;
+}
+
+.paragraph--small {
+  font-size: 14px;
+}

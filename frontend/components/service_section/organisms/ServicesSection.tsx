@@ -9,7 +9,7 @@ export interface ServicesSectionProps {
 
 const SectionWrapper = styled.section`
   padding: 4rem 1rem;
-  background-color: #f9f9f9;
+  background-color: #e8e5e5ff;
 `;
 
 const Title = styled.h2`
