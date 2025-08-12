@@ -1,0 +1,162 @@
+
+/* Styles pour la carte d'exposition */
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  max-width: 380px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Styles pour la carte mise en avant (spotlight) */
+.spotlight {
+  border: 2px solid #007bff; /* Bordure bleue pour attirer l'attention */
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.2);
+}
+
+/* Conteneur de l'image */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Assure que l'image couvre bien le conteneur */
+}
+
+/* Badge de statut */
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.current { background-color: #28a745; } /* Vert */
+.upcoming { background-color: #ffc107; } /* Jaune */
+.past { background-color: #6c757d; } /* Gris */
+
+/* Corps de la carte */
+.cardBody {
+  padding: 20px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.dates {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.info {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+/* Section de notification */
+.notifySection {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.notifySection p {
+  font-size: 0.9rem;
+  color: #333;
+  margin: 0 0 12px 0;
+}
+
+.notifyForm {
+  display: flex;
+  gap: 8px;
+}
+
+.notifyInput {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.notifyButton {
+  padding: 10px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.notifyButton:hover {
+  background-color: #0056b3;
+}
+
+/* Pied de la carte */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.socialButtons a {
+  margin-right: 12px;
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.socialButtons a:hover {
+  text-decoration: underline;
+}
+
+.ctaButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.ctaButton:hover {
+  background-color: #555;
+}
