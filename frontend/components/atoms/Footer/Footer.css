@@ -193,28 +193,29 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .footer-top {
+  .footer-content {
     flex-direction: column;
     align-items: center;
+  }
+
+  .footer-nav, .footer-contact, .footer-social, .footer-newsletter {
     text-align: center;
+    margin-bottom: 20px;
   }
 
-  .footer-brand-info,
-  .footer-links-group,
-  .footer-contact-info,
-  .footer-section {
-    width: 100%;
-    min-width: unset;
-    text-align: center;
+  .newsletter-form {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .social-icons {
-    justify-content: center;
+  .newsletter-form input {
+    margin-right: 0;
+    margin-bottom: 10px;
+    border-radius: 5px;
   }
 
-  .footer-section h3 {
-    border-bottom: none;
-    padding-bottom: 0;
+  .newsletter-button {
+    border-radius: 5px;
   }
 }
 
