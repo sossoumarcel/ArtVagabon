@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 const HeroBanner = ({ title, subtitle, backgroundImage, buttonText, buttonLink }) => {
   const hasImage = Boolean(backgroundImage);
 
