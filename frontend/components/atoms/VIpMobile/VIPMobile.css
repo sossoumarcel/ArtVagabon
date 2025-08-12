@@ -1,0 +1,132 @@
+/* General container styling */
+.vip-mobile-container {
+  padding: 1.5rem; /* Use rem for better scaling */
+  border: 1px solid #e0e0e0; /* Lighter border */
+  border-radius: 12px; /* More rounded corners */
+  max-width: 768px; /* Increased max-width for better desktop view */
+  margin: 2rem auto; /* More vertical margin */
+  text-align: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
+  background-color: #ffffff; /* White background */
+}
+
+/* Title styling */
+.vip-mobile-container h4 {
+  font-size: 1.8rem; /* Larger title */
+  color: #e8b86d; /* Specific color requested by user */
+  margin-bottom: 1.5rem; /* More space below title */
+  font-weight: 600; /* Slightly bolder */
+}
+
+/* Options container */
+.vip-options {
+  display: grid; /* Use grid for better layout control */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid columns */
+  gap: 1.25rem; /* Space between cards */
+  margin-top: 1.5rem;
+}
+
+/* Individual option card styling */
+.vip-option-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px; /* Slightly less rounded than container */
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out; /* Smoother transition */
+  text-align: left;
+  background-color: #fdfdfd; /* Slightly off-white background */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute content vertically */
+  min-height: 180px; /* Ensure cards have a minimum height */
+}
+
+.vip-option-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+  border-color: #007bff; /* Highlight border on hover */
+  transform: translateY(-5px); /* Slight lift effect */
+}
+
+.vip-option-card h5 {
+  color: #007bff;
+  margin-top: 0;
+  margin-bottom: 0.75rem; /* Space below heading */
+  font-size: 1.3rem; /* Larger heading for card */
+  font-weight: 500; /* Medium weight */
+}
+
+.vip-option-card p {
+  color: #555;
+  font-size: 0.95rem; /* Slightly larger description text */
+  line-height: 1.6; /* Improved readability */
+  margin-bottom: 0; /* Remove default paragraph margin */
+}
+
+/* Form styling */
+.vip-form {
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-top: 2rem;
+  background-color: #fdfdfd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.vip-form h3 {
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.vip-form p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.vip-form button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem; /* Larger padding */
+  margin-top: 1rem;
+  border-radius: 6px; /* Slightly more rounded */
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.vip-form button:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .vip-mobile-container {
+    margin: 1rem; /* Less margin on smaller screens */
+    padding: 1rem;
+  }
+
+  .vip-mobile-container h4 {
+    font-size: 1.5rem;
+  }
+
+  .vip-option-card {
+    padding: 1rem;
+    min-height: unset; /* Remove min-height on smaller screens */
+  }
+
+  .vip-option-card h5 {
+    font-size: 1.1rem;
+  }
+
+  .vip-option-card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vip-options {
+    grid-template-columns: 1fr; /* Stack cards on very small screens */
+  }
+}
