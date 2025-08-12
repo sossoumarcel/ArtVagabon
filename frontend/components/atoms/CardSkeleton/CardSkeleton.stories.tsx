@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { StoryFn, Meta } from '@storybook/nextjs-vite';
 import CardSkeleton from './CardSkeleton';
 import { CardSkeletonProps } from './types';
 
@@ -12,9 +11,9 @@ export default {
     height: { control: 'text' },
     imageHeight: { control: 'text' },
   },
-} as Meta;
+} as Meta<typeof CardSkeleton>;
 
-const Template: Story<CardSkeletonProps> = (args) => <CardSkeleton {...args} />;
+const Template: StoryFn<CardSkeletonProps> = (args) => <CardSkeleton {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

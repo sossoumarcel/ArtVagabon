@@ -26,7 +26,7 @@ export const Footer = () => {
         </div>
         <div className="footer-social">
           <h3 className="footer-nav-title">Suivez-nous</h3>
-          <p>Restez connecté avec l'actualité artistique</p>
+          <p>Restez connecté avec l&apos actualité artistique</p>
           <div className="social-icons">
             <a href="https://facebook.com"><Icon name="facebook" size={24} /></a>
             <a href="https://instagram.com"><Icon name="instagram" size={24} /></a>
@@ -39,7 +39,7 @@ export const Footer = () => {
           <p>Recevez les dernières actualités artistiques.</p>
           <form className="newsletter-form">
             <input type="email" placeholder="Votre adresse email" />
-            <button type="submit" className="newsletter-button">S'inscrire</button>
+            <button type="submit" className="newsletter-button">S&aposinscrire</button>
           </form>
         </div>
       </div>
