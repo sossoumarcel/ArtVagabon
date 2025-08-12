@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { StoryFn, Meta } from '@storybook/react-vite';
 import SearchBar from './SearchBar';
 import { SearchBarProps } from './types';
 
@@ -8,7 +8,7 @@ export default {
   component: SearchBar,
 } as Meta;
 
-const Template: Story<SearchBarProps> = (args) => <SearchBar {...args} />;
+const Template: StoryFn<SearchBarProps> = (args) => <SearchBar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
