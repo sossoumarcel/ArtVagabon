@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { ServiceCard } from './ServiceCard';
 
-// 1. Définir la configuration "meta"
 const meta: Meta<typeof ServiceCard> = {
   title: 'Molecules/ServiceCard',
   component: ServiceCard,
@@ -15,7 +14,6 @@ const meta: Meta<typeof ServiceCard> = {
   },
 };
 
-// 2. L'export par défaut manquant
 export default meta;
 
 type Story = StoryObj<typeof ServiceCard>;

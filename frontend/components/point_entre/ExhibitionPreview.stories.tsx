@@ -1,5 +1,4 @@
-
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { ExhibitionPreview, ExhibitionPreviewProps } from './ExhibitionPreview';
 
 // Définition des métadonnées du composant pour Storybook
@@ -31,7 +30,7 @@ const meta: Meta<typeof ExhibitionPreview> = {
 export default meta;
 type Story = StoryObj<typeof ExhibitionPreview>;
 
-// Arguments de base pour toutes les stories
+// Arguments de base pour toutes les stories, avec status ajouté
 const baseArgs: ExhibitionPreviewProps = {
   title: 'Explorations Chromatiques',
   imageUrl: 'https://picsum.photos/seed/art1/600/400', // Image de substitution
@@ -41,6 +40,7 @@ const baseArgs: ExhibitionPreviewProps = {
   dates: '15 Sept - 30 Oct 2025',
   shareUrl: 'https://artvagabon.fr/expos/explorations-chromatiques',
   onClick: () => alert('Navigation vers les détails de l\'exposition !'),
+  status: 'current',  // <-- ajouté ici pour corriger l'erreur
 };
 
 // Story pour une exposition en cours
@@ -95,4 +95,3 @@ export const VirtualExhibition: Story = {
     imageUrl: 'https://picsum.photos/seed/art5/600/400',
   },
 };
-
