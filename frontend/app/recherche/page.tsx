@@ -1,14 +1,25 @@
-"use client"
+"use client";
 
-import { useSearchParams } from 'next/navigation'
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
-export default function RecherchePage() {
-  const searchParams = useSearchParams()
-  const query = searchParams.get('q')
+function RechercheContent() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q");
 
   return (
     <div>
-      <h1>Résultats de recherche pour : &quot;{query}&quot;</h1>
+      <h1>
+        Résultats de recherche pour : {query ? `"${query}"` : "aucune recherche"}
+      </h1>
     </div>
+  );
+}
+
+export default function RecherchePage() {
+  return (
+    <Suspense fallback={<div>Chargement des résultats...</div>}>
+      <RechercheContent />
+    </Suspense>
   );
 }
