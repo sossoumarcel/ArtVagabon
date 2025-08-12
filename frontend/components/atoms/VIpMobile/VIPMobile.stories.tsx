@@ -1,13 +1,12 @@
-import React from 'react';
-import { StoryFn, Meta } from '@storybook/react';
+import type { StoryFn, Meta } from '@storybook/react-vite';
 import VIPMobile from './VIPMobile';
 
 export default {
   title: 'Atoms/VIPMobile',
   component: VIPMobile,
-} as Meta;
+} as Meta<typeof VIPMobile>;
 
-const Template: StoryFn = (args) => <VIPMobile {...args} />;
+const Template: StoryFn<typeof VIPMobile> = (args) => <VIPMobile {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {};

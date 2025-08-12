@@ -39,7 +39,7 @@ const VIPMobile: React.FC<VIPMobileProps> = () => {
           <div className="vip-form">
             <h3>Formulaire: Accès Lounge</h3>
             {/* Form fields for lounge access */}
-            <p>Formulaire pour l'accès lounge.</p>
+            <p>Formulaire pour l&apos;accès lounge.</p>
             <button onClick={() => setSelectedOption(null)}>Retour</button>
           </div>
         );
@@ -61,7 +61,7 @@ const VIPMobile: React.FC<VIPMobileProps> = () => {
             </div>
             <div className="vip-option-card" onClick={() => setSelectedOption('acces_lounge')}>
               <h5>Accès Lounge</h5>
-              <p>Profitez d'un espace de détente exclusif, idéal pour se relaxer et réseauter avant ou après les événements.</p>
+              <p>Profitez d&apos;un espace de détente exclusif, idéal pour se relaxer et réseauter avant ou après les événements.</p>
             </div>
           </div>
         );
