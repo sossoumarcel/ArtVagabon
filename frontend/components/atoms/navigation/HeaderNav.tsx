@@ -1,150 +1,85 @@
-"use client"
+"use client";
+import { useState, useEffect } from "react";
+import styles from "./HeaderNav.module.css";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import styles from "./HeaderNav.module.css"
-import Icon from "../Icon"
-import SearchBar from "../SearchBar"
-import NavLink from '../NavLink/NavLink' // Assuming NavLink is in ../NavLink
+import Logo from "../logo";
+import Icon from "../Icon";
 
 export function HeaderNav() {
-  const [isSearchVisible, setIsSearchVisible] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false) // New state for mobile menu
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
     { href: "/", label: "Accueil" },
-    {
-      href: "/galerie",
-      label: "Galerie",
-      subMenu: [
-        { href: "/galerie/oeuvres", label: "Œuvres" },
-        { href: "/galerie/artistes", label: "Artistes" },
-      ],
-    },
-    { href: "/evenements", label: "Événements" },
-    { href: "/a-propos", label: "À propos" },
-    { href: "/contact", label: "Contact" },
-  ]
+    { href: "/Evenements", label: "Evènements" },
+    { href: "/communaute", label: "Communauté" },
+    { href: "/boutique", label: "Boutique" },
+    { href: "/a-propos", label: "À Propos" },
+  ];
 
-  const handleSearch = (query: string) => {
-    window.location.href = `/recherche?q=${query}`
-  }
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+  // Empêche le scroll quand le menu est ouvert
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [menuOpen]);
 
   return (
     <header className={styles.header}>
-      <Link href="/" passHref className={styles.logoLink}>
-        <Image
-          src="/logo-couleur.svg"
-          alt="ArtsVagabonds - Retour à l'accueil"
-          width={180}
-          height={90}
-          priority
-        />
-      </Link>
-      <nav className={styles.nav}>
-        <ul className={styles.navLinks}>
-          {navLinks.map((link) => (
-            <li
-              key={link.href}
-              className={`${styles.navLink} ${
-                link.subMenu ? styles.galleryMenuItem : ""
-              }`}
-            >
-              <Link
-                href={link.href}
-                className={pathname === link.href ? styles.active : ""}
-              >
-                {link.label}
-              </Link>
-              {link.subMenu && (
-                <ul className={styles.gallerySubMenu}>
-                  {link.subMenu.map((subLink) => (
-                    <li key={subLink.href}>
-                      <Link href={subLink.href}>{subLink.label}</Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <div className={styles.nav}>
-        <div className={styles.searchContainer}>
-          <button
-            className={styles.searchIcon}
-            onClick={() => setIsSearchVisible(!isSearchVisible)}
-            aria-label="Ouvrir la barre de recherche"
-          >
-            <Icon name="search" size={24} />
-          </button>
-          {isSearchVisible && (
-            <SearchBar
-              placeholder="Rechercher une œuvre, un artiste..."
-              onSearch={handleSearch}
-            />
-          )}
-        </div>
-        <Icon name="user" size={24} />
-        <button
-          className={styles.burgerMenuIcon}
-          onClick={toggleMobileMenu}
-          aria-label="Ouvrir le menu mobile"
-        >
-          <Icon name="menu" size={24} />
-        </button>
+      {/* Le burger n'est plus ici */}
+      <div className={styles.left}>
+        <Logo />
       </div>
 
-      {isMobileMenuOpen && (
-        <div className={styles.mobileMenuOverlay}>
-          <button
-            className={styles.closeMobileMenu}
-            onClick={toggleMobileMenu}
-            aria-label="Fermer le menu mobile"
+      {/* Nav desktop */}
+      <nav className={styles.nav}>
+        {navLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={`${styles.navLink} ${pathname === link.href ? styles.active : ""}`}
           >
-            <Icon name="close" size={24} />
-          </button>
-          <nav className={styles.mobileNav}>
-            <ul className={styles.mobileNavLinks}>
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <NavLink
-                    href={link.href}
-                    label={link.label}
-                    isActive={pathname === link.href}
-                    onClick={toggleMobileMenu} // Close menu on link click
-                  />
-                  {link.subMenu && (
-                    <ul className={styles.mobileSubMenu}>
-                      {link.subMenu.map((subLink) => (
-                        <li key={subLink.href}>
-                          <NavLink
-                            href={subLink.href}
-                            label={subLink.label}
-                            onClick={toggleMobileMenu} // Close menu on sub-link click
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <SearchBar
-              placeholder="Rechercher..."
-              onSearch={handleSearch}
-              className={styles.mobileSearchBar}
-            />
-          </nav>
-        </div>
-      )}
+            {link.label}
+          </Link>
+        ))}
+      </nav>
+
+      <div className={styles.right}>
+        <Link href="/contact" className={styles.contactBtn}>
+          Contact
+        </Link>
+
+        <Link href="/profil" className={styles.profileIconLink} aria-label="Mon compte">
+          <Icon name="user" />
+        </Link>
+
+        {/* 1. On remet le bouton burger ICI, à la fin de la div "right" */}
+        <button
+          className={styles.burgerBtn}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Ouvrir/fermer le menu"
+        >
+          <Icon name={menuOpen ? "close" : "menu"} />
+        </button>
+      </div>
+      
+
+      {/* Menu mobile */}
+      <nav className={`${styles.mobileNav} ${menuOpen ? styles.open : ""}`}>
+        {navLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={`${styles.navLink} ${pathname === link.href ? styles.active : ""}`}
+            onClick={() => setMenuOpen(false)}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
     </header>
-  )
+  );
 }
