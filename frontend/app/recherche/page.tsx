@@ -8,8 +8,7 @@ export default function RecherchePage() {
 
   return (
     <div>
-      <h1>Résultats de recherche pour : "{query}"</h1>
-      {/* Le contenu des résultats de recherche ira ici */}
+      <h1>Résultats de recherche pour : &quot;{query}&quot;</h1>
     </div>
   );
 }
