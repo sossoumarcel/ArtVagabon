@@ -8,6 +8,7 @@ const Button: React.FC<ButtonProps> = ({ variant, label, onClick, isDisabled }) 
       className={`button button--${variant}`}
       onClick={onClick}
       disabled={isDisabled}
+      
     >
       {label}
     </button>
