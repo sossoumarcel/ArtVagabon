@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Link } from "@/components/navigation/Link"
+import  NavLink  from "@/components/atoms/NavLink/NavLink"
 import { absoluteUrl, formatDate } from "@/lib/utils"
 import type { DrupalNode } from "next-drupal"
 
@@ -10,9 +10,9 @@ interface ArticleTeaserProps {
 export function ArticleTeaser({ node, ...props }: ArticleTeaserProps) {
   return (
     <article {...props}>
-      <Link href={node.path.alias} className="no-underline hover:text-blue-600">
-        <h2 className="mb-4 text-4xl font-bold">{node.title}</h2>
-      </Link>
+      <NavLink label="Mon label" href={node.path.alias} className="no-underline hover:text-blue-600">
+        <h2 className="mb-4 text-4xl font-bold">{node.title}</h2> 
+      </NavLink>
       <div className="mb-4 text-gray-600">
         {node.uid?.display_name ? (
           <span>
@@ -32,8 +32,8 @@ export function ArticleTeaser({ node, ...props }: ArticleTeaserProps) {
           />
         </figure>
       )}
-      <Link
-        href={node.path.alias}
+      <NavLink
+        href={node.path.alias} label="Mon label"
         className="inline-flex items-center px-6 py-2 border border-gray-600 rounded-full hover:bg-gray-100"
       >
         Read article
@@ -48,7 +48,7 @@ export function ArticleTeaser({ node, ...props }: ArticleTeaserProps) {
         >
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
-      </Link>
+      </NavLink>
     </article>
   )
 }
