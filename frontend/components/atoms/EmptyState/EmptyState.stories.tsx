@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { StoryFn, Meta } from '@storybook/react-vite';
 import EmptyState from './EmptyState';
 import { EmptyStateProps } from './types';
 
@@ -8,9 +8,10 @@ export default {
   component: EmptyState,
 } as Meta;
 
-const Template: Story<EmptyStateProps> = (args) => <EmptyState {...args} />;
+const Template: StoryFn<EmptyStateProps> = (args) => <EmptyState {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
   message: 'Aucune donnée disponible.',
 };
+

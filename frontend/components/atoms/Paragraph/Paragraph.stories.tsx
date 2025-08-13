@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import Paragraph from './Paragraph';
 
 const meta: Meta<typeof Paragraph> = {

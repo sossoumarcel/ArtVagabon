@@ -6,6 +6,7 @@ export const ICONS = {
   facebook: 'facebook',
   twitter: 'twitter',
   instagram: 'instagram',
+  linkedin: 'linkedin',
   burger: 'burger',
   close: 'close',
   settings: 'settings',

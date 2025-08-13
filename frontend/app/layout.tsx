@@ -1,8 +1,10 @@
-import { DraftAlert } from "@/components/misc/DraftAlert"
-import { HeaderNav } from "@/components/navigation/HeaderNav"
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
 import Script from 'next/script'
+
+import MainLayout from "@/components/atoms/MainLayout"
+import { HeaderNav } from "@/components/atoms/navigation/HeaderNav"
+import { Footer } from "@/components/atoms/Footer"
 
 import "@/styles/globals.css"
 
@@ -19,12 +21,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    
     <html lang="fr">
-
-      <head />
       <body>
-        {/* Google Analytics */}
+        {/* Google Analytics Scripts */}
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-KD7TS99LKZ"
@@ -43,9 +42,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             `,
           }}
         />
-        <DraftAlert />
-        <HeaderNav />
-        {children}
+
+        <MainLayout
+          header={<HeaderNav />}
+          footer={<Footer />}
+        >
+          {children}
+        </MainLayout>
+        
       </body>
     </html>
   )
