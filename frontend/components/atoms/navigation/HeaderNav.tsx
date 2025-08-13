@@ -1,3 +1,5 @@
+// HeaderNav.js
+
 "use client";
 import { useState, useEffect } from "react";
 import styles from "./HeaderNav.module.css";
@@ -19,7 +21,6 @@ export function HeaderNav() {
     { href: "/a-propos", label: "À Propos" },
   ];
 
-  // Empêche le scroll quand le menu est ouvert
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
     return () => {
@@ -29,7 +30,6 @@ export function HeaderNav() {
 
   return (
     <header className={styles.header}>
-      {/* Le burger n'est plus ici */}
       <div className={styles.left}>
         <Logo />
       </div>
@@ -40,7 +40,9 @@ export function HeaderNav() {
           <Link
             key={link.href}
             href={link.href}
-            className={`${styles.navLink} ${pathname === link.href ? styles.active : ""}`}
+            className={`${styles.navLink} ${
+              pathname === link.href ? styles.active : ""
+            }`}
           >
             {link.label}
           </Link>
@@ -48,37 +50,68 @@ export function HeaderNav() {
       </nav>
 
       <div className={styles.right}>
-        <Link href="/contact" className={styles.contactBtn}>
+        {/* -- MODIFICATION 1 : Barre de recherche complète pour DESKTOP SEULEMENT -- */}
+        <div className={`${styles.searchContainer} ${styles.desktopOnly}`}>
+          <input
+            type="text"
+            placeholder="Rechercher..."
+            className={styles.searchInput}
+          />
+          <button className={styles.searchButton} aria-label="Lancer la recherche">
+            <Icon name="search" />
+          </button>
+        </div>
+
+        {/* Bouton Contact visible uniquement desktop */}
+        <Link href="/contact" className={`${styles.contactBtn} ${styles.desktopOnly}`}>
           Contact
         </Link>
+        
+        {/* -- MODIFICATION 2 : Icône de recherche pour MOBILE SEULEMENT -- */}
+        <Link href="/recherche" className={`${styles.searchIconLink} ${styles.mobileOnly}`} aria-label="Recherche">
+            <Icon name="search" />
+        </Link>
 
-        <Link href="/profil" className={styles.profileIconLink} aria-label="Mon compte">
+        <Link
+          href="/profil"
+          className={styles.profileIconLink}
+          aria-label="Mon compte"
+        >
           <Icon name="user" />
         </Link>
 
-        {/* 1. On remet le bouton burger ICI, à la fin de la div "right" */}
         <button
           className={styles.burgerBtn}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Ouvrir/fermer le menu"
         >
-          <Icon name={menuOpen ? "close" : "menu"} />
+          <span className={`${styles.burgerBar} ${menuOpen ? styles.burgerBarOpen1 : ""}`}></span>
+          <span className={`${styles.burgerBar} ${menuOpen ? styles.burgerBarOpen2 : ""}`}></span>
+          <span className={`${styles.burgerBar} ${menuOpen ? styles.burgerBarOpen3 : ""}`}></span>
         </button>
       </div>
-      
 
-      {/* Menu mobile */}
+      {/* Menu mobile (SANS la recherche, car elle est maintenant dans le header) */}
       <nav className={`${styles.mobileNav} ${menuOpen ? styles.open : ""}`}>
         {navLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className={`${styles.navLink} ${pathname === link.href ? styles.active : ""}`}
+            className={`${styles.navLink} ${
+              pathname === link.href ? styles.active : ""
+            }`}
             onClick={() => setMenuOpen(false)}
           >
             {link.label}
           </Link>
         ))}
+        <Link
+          href="/contact"
+          className={styles.contactBtn}
+          onClick={() => setMenuOpen(false)}
+        >
+          Contact
+        </Link>
       </nav>
     </header>
   );
