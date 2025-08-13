@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { ExhibitionPreview, ExhibitionPreviewProps } from './ExhibitionPreview';
 
-// Définition des métadonnées du composant pour Storybook
+
 const meta: Meta<typeof ExhibitionPreview> = {
   title: 'Components/ExhibitionPreview',
   component: ExhibitionPreview,
