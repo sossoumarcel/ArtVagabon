@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Story, Meta } from '@storybook/react-vite';
 import SearchBar from './SearchBar';
 import { SearchBarProps } from './types';
 
