@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import Logo from "../logo";
 import Icon from "../Icon";
 
-// 1. Définition des types pour TypeScript (inchangé)
 interface MenuLink {
   href: string;
   label: string;
@@ -23,10 +22,8 @@ export function HeaderNav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 2. Suppression de la liste statique 'navLinks' et remplacement par un état dynamique
   const [menuLinks, setMenuLinks] = useState<MenuLink[]>([]);
 
-  // 3. Logique pour récupérer les données de Drupal (inchangée)
   useEffect(() => {
     const menuApiUrl = "http://13.37.252.245/api/menu_items/main?_format=json";
 
@@ -55,7 +52,6 @@ export function HeaderNav() {
     fetchMenuData();
   }, []);
 
-  // Effet pour le scroll (inchangé)
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
     return () => {
@@ -64,14 +60,12 @@ export function HeaderNav() {
   }, [menuOpen]);
 
 
-  // 4. Utilisation de la nouvelle structure JSX avec les données dynamiques
   return (
     <header className={styles.header}>
       <div className={styles.left}>
         <Logo />
       </div>
 
-      {/* Nav desktop - Utilise maintenant 'menuLinks' au lieu de 'navLinks' */}
       <nav className={styles.nav}>
         {menuLinks.map((link) => (
           <Link
@@ -87,7 +81,6 @@ export function HeaderNav() {
       </nav>
 
       <div className={styles.right}>
-        {/* Barre de recherche complète pour DESKTOP SEULEMENT */}
         <div className={`${styles.searchContainer} ${styles.desktopOnly}`}>
           <input
             type="text"
@@ -99,12 +92,10 @@ export function HeaderNav() {
           </button>
         </div>
 
-        {/* Bouton Contact visible uniquement desktop */}
         <Link href="/contact" className={`${styles.contactBtn} ${styles.desktopOnly}`}>
           Contact
         </Link>
         
-        {/* Icône de recherche pour MOBILE SEULEMENT */}
         <Link href="/recherche" className={`${styles.searchIconLink} ${styles.mobileOnly}`} aria-label="Recherche">
             <Icon name="search" />
         </Link>
@@ -117,7 +108,6 @@ export function HeaderNav() {
           <Icon name="user" />
         </Link>
 
-        {/* Le bouton burger animé est conservé */}
         <button
           className={styles.burgerBtn}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -129,7 +119,6 @@ export function HeaderNav() {
         </button>
       </div>
 
-      {/* Menu mobile - Utilise maintenant 'menuLinks' au lieu de 'navLinks' */}
       <nav className={`${styles.mobileNav} ${menuOpen ? styles.open : ""}`}>
         {menuLinks.map((link) => (
           <Link
@@ -143,7 +132,6 @@ export function HeaderNav() {
             {link.label}
           </Link>
         ))}
-        {/* Le bouton contact dans le menu mobile est conservé */}
         <Link
           href="/contact"
           className={styles.contactBtn}
