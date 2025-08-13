@@ -7,19 +7,53 @@ import { usePathname } from "next/navigation";
 import Logo from "../logo";
 import Icon from "../Icon";
 
+interface MenuLink {
+  href: string;
+  label: string;
+}
+
+interface DrupalMenuItem {
+  title: string;
+  relative: string;
+  enabled: boolean;
+}
+
+
+
 export function HeaderNav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinks = [
-    { href: "/", label: "Accueil" },
-    { href: "/Evenements", label: "Evènements" },
-    { href: "/communaute", label: "Communauté" },
-    { href: "/boutique", label: "Boutique" },
-    { href: "/a-propos", label: "À Propos" },
-  ];
 
-  // Empêche le scroll quand le menu est ouvert
+  const [menuLinks, setMenuLinks] = useState<MenuLink[]>([]);
+
+  useEffect(() => {
+    const menuApiUrl = "http://13.37.252.245/api/menu_items/main?_format=json";
+
+    const fetchMenuData = async () => {
+      try {
+        const response = await fetch(menuApiUrl);
+        if (!response.ok) {
+          throw new Error("La récupération des données du menu a échoué");
+        }
+        const drupalMenuItems: DrupalMenuItem[] = await response.json();
+
+      
+        const formattedLinks = drupalMenuItems.map((item: DrupalMenuItem) => ({
+          label: item.title,
+          href: item.relative,
+        }));
+
+        setMenuLinks(formattedLinks);
+
+      } catch (error) {
+        console.error("Erreur lors de la récupération du menu depuis Drupal:", error);
+      }
+    };
+
+    fetchMenuData();
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
     return () => {
@@ -29,14 +63,12 @@ export function HeaderNav() {
 
   return (
     <header className={styles.header}>
-      {/* Le burger n'est plus ici */}
       <div className={styles.left}>
         <Logo />
       </div>
 
-      {/* Nav desktop */}
       <nav className={styles.nav}>
-        {navLinks.map((link) => (
+        {menuLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
@@ -51,12 +83,9 @@ export function HeaderNav() {
         <Link href="/contact" className={styles.contactBtn}>
           Contact
         </Link>
-
         <Link href="/profil" className={styles.profileIconLink} aria-label="Mon compte">
           <Icon name="user" />
         </Link>
-
-        {/* 1. On remet le bouton burger ICI, à la fin de la div "right" */}
         <button
           className={styles.burgerBtn}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -65,11 +94,9 @@ export function HeaderNav() {
           <Icon name={menuOpen ? "close" : "menu"} />
         </button>
       </div>
-      
 
-      {/* Menu mobile */}
       <nav className={`${styles.mobileNav} ${menuOpen ? styles.open : ""}`}>
-        {navLinks.map((link) => (
+        {menuLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
