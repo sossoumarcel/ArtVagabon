@@ -1,0 +1,14 @@
+.link {
+  color: #4b5563; 
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #795a05; /* orange clair au survol */
+}
+
+.active {
+  color: #c79305; /* orange vif */
+  font-weight: 600;
+}
