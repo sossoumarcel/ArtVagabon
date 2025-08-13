@@ -1,5 +1,3 @@
-// HeaderNav.js
-
 "use client";
 import { useState, useEffect } from "react";
 import styles from "./HeaderNav.module.css";
@@ -9,17 +7,50 @@ import { usePathname } from "next/navigation";
 import Logo from "../logo";
 import Icon from "../Icon";
 
+interface MenuLink {
+  href: string;
+  label: string;
+}
+
+interface DrupalMenuItem {
+  title: string;
+  relative: string;
+  enabled: boolean;
+}
+
 export function HeaderNav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinks = [
-    { href: "/", label: "Accueil" },
-    { href: "/Evenements", label: "Evènements" },
-    { href: "/communaute", label: "Communauté" },
-    { href: "/boutique", label: "Boutique" },
-    { href: "/a-propos", label: "À Propos" },
-  ];
+  const [menuLinks, setMenuLinks] = useState<MenuLink[]>([]);
+
+  useEffect(() => {
+    const menuApiUrl = "http://13.37.252.245/api/menu_items/main?_format=json";
+
+    const fetchMenuData = async () => {
+      try {
+        const response = await fetch(menuApiUrl);
+        if (!response.ok) {
+          throw new Error("La récupération des données du menu a échoué");
+        }
+        
+        const drupalMenuItems: DrupalMenuItem[] = await response.json();
+
+        const formattedLinks = drupalMenuItems
+          .filter(item => item.enabled)
+          .map((item: DrupalMenuItem) => ({
+            label: item.title,
+            href: item.relative,
+          }));
+
+        setMenuLinks(formattedLinks);
+      } catch (error) {
+        console.error("Erreur lors de la récupération du menu depuis Drupal:", error);
+      }
+    };
+
+    fetchMenuData();
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
@@ -28,15 +59,15 @@ export function HeaderNav() {
     };
   }, [menuOpen]);
 
+
   return (
     <header className={styles.header}>
       <div className={styles.left}>
         <Logo />
       </div>
 
-      {/* Nav desktop */}
       <nav className={styles.nav}>
-        {navLinks.map((link) => (
+        {menuLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
@@ -50,7 +81,6 @@ export function HeaderNav() {
       </nav>
 
       <div className={styles.right}>
-        {/* -- MODIFICATION 1 : Barre de recherche complète pour DESKTOP SEULEMENT -- */}
         <div className={`${styles.searchContainer} ${styles.desktopOnly}`}>
           <input
             type="text"
@@ -62,12 +92,10 @@ export function HeaderNav() {
           </button>
         </div>
 
-        {/* Bouton Contact visible uniquement desktop */}
         <Link href="/contact" className={`${styles.contactBtn} ${styles.desktopOnly}`}>
           Contact
         </Link>
         
-        {/* -- MODIFICATION 2 : Icône de recherche pour MOBILE SEULEMENT -- */}
         <Link href="/recherche" className={`${styles.searchIconLink} ${styles.mobileOnly}`} aria-label="Recherche">
             <Icon name="search" />
         </Link>
@@ -91,9 +119,8 @@ export function HeaderNav() {
         </button>
       </div>
 
-      {/* Menu mobile (SANS la recherche, car elle est maintenant dans le header) */}
       <nav className={`${styles.mobileNav} ${menuOpen ? styles.open : ""}`}>
-        {navLinks.map((link) => (
+        {menuLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
